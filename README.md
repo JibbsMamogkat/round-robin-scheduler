@@ -22,7 +22,7 @@ A web-based simulation tool that demonstrates how the **Round Robin CPU Scheduli
 ---
 
 ## 📁 Project Structure
-
+```
 round-robin-scheduler/
 ├── index.html # Main UI
 ├── css/
@@ -30,8 +30,7 @@ round-robin-scheduler/
 ├── js/
 │ └── app.js # Simulation logic & interactivity
 └── README.md # This file
-
-
+```
 ---
 
 ## 🚀 Getting Started
