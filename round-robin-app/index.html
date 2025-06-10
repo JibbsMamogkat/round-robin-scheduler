@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round Robin Scheduler</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Round Robin Scheduling Visualizer</h1>
+    </header>
+
+    <main>
+        <section id="input-section">
+            <h2>Add Process</h2>
+            <form id="process-form">
+                <input type="text" id="process-name" placeholder="Process Name (e.g., P1)" required>
+                <input type="number" id="arrival-time" placeholder="Arrival Time" min="0" required>
+                <input type="number" id="burst-time" placeholder="Burst Time" min="1" required>
+                <button type="submit">Add Process</button>
+            </form>
+
+            <div>
+                <label for="time-quantum">Time Quantum:</label>
+                <input type="number" id="time-quantum" placeholder="e.g., 4" min="1" required>
+                <button id="start-simulation">Start Simulation</button>
+            </div>
+        </section>
+
+        <section id="process-list-section">
+            <h2>Process List</h2>
+            <table id="process-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Arrival</th>
+                        <th>Burst</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Process rows will go here -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="visualization-section">
+            <h2>Gantt Chart</h2>
+            <div id="gantt-chart">
+                <!-- Time blocks will go here -->
+            </div>
+        </section>
+
+        <section id="results-section">
+            <h2>Results</h2>
+            <div id="metrics">
+                <!-- Average waiting time, turnaround time, etc. -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Round Robin Visualizer</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
