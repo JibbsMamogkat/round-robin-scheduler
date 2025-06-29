@@ -50,27 +50,31 @@ To run locally:
 
 👥 Contributors
 
-If you're a groupmate contributing to this project, here's a simple guide to make changes and push them safely:
+## 👥 Contributors
 
+If you're one of the group members contributing to this project, follow these steps to safely make and push changes:
+
+### 🧠 Basic Git Workflow (No Branches)
+
+```bash
 # 1. Clone the repository (first time only)
 git clone https://github.com/JibbsMamogkat/round-robin-scheduler.git
 cd round-robin-scheduler
 
-# 2. Before making changes, always pull the latest version
+# 2. Always pull the latest version before making changes
 git pull origin main
 
-# 3. Make your changes (edit HTML, CSS, JS, etc.)
+# 3. Make your changes (HTML, CSS, JS, etc.)
 
 # 4. Stage your changes
 git add .
 
-# 5. Commit with a message describing what you did
-git commit -m "Added new feature / fixed layout / updated content"
+# 5. Commit your changes with a short message
+git commit -m "Describe what you changed"
 
 # 6. Push your changes to GitHub
 git push origin main
 
-    🛑 Important: Always run git pull origin main first before pushing, to make sure you have the latest version and avoid merge conflicts.
-
+```
 
 🧑‍💻 Contributors
