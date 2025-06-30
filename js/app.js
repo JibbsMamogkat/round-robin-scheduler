@@ -87,7 +87,6 @@ processTableBody.addEventListener('click', (e) => {
     }
 });
 
-
 startButton.addEventListener('click', () => {
     const quantum = parseInt(quantumInput.value);
     if (isNaN(quantum) || quantum <= 0) { alert('Enter a valid time quantum!'); return; }
@@ -100,18 +99,7 @@ startButton.addEventListener('click', () => {
 
     setTimeout(() => {
         try {
-            ganttChart.innerHTML = '';
-            ganttLabels.innerHTML = '';
-            queueGuide.innerHTML = '';
-            metricsDiv.innerHTML = '';
-
-            const { timeline, guideSteps, completed } = simulateRoundRobin(quantum);
-
-            if (timeline.length > 0) {
-                renderGanttChart(timeline);
-                renderQueueGuide(guideSteps, timeline);
-                calculateAndDisplayMetrics(completed);
-            }
+            runAndRenderSimulation();
         } finally {
             startButton.classList.remove('button-loading');
             clearButton.disabled = false;
@@ -120,6 +108,7 @@ startButton.addEventListener('click', () => {
         }
     }, 10);
 });
+
 function simulateRoundRobin(quantum) {
     const readyQueue = [];
     const timeline = [];
@@ -402,34 +391,6 @@ function renderQueueGuide(guideSteps, timeline) {
     }, 100);
 }
 
-startButton.addEventListener('click', () => {
-    const quantum = parseInt(quantumInput.value);
-    if (isNaN(quantum) || quantum <= 0) {
-        alert('Enter a valid time quantum!');
-        return;
-    }
-    if (processes.length === 0) {
-        alert('Add at least one process!');
-        return;
-    }
-
-    startButton.classList.add('button-loading');
-    clearButton.disabled = true;
-    startButton.disabled = true;
-    addButton.disabled = true;
-
-    setTimeout(() => {
-        try {
-            runAndRenderSimulation();
-        } finally {
-            startButton.classList.remove('button-loading');
-            clearButton.disabled = false;
-            startButton.disabled = false;
-            addButton.disabled = false;
-        }
-    }, 10);
-});
-
 function calculateAndDisplayMetrics(completed) {
     if (!completed || completed.length === 0) {
         resetToPlaceholderState();
@@ -546,27 +507,7 @@ clearButton.addEventListener('click', () => {
     }
 });
 
-startButton.addEventListener('click', () => {
-    const quantum = parseInt(quantumInput.value);
-    if (isNaN(quantum) || quantum <= 0) { alert('Enter a valid time quantum!'); return; }
-    if (processes.length === 0) { alert('Add at least one process!'); return; }
 
-    startButton.classList.add('button-loading');
-    clearButton.disabled = true;
-    startButton.disabled = true;
-    addButton.disabled = true;
-
-    setTimeout(() => {
-        try {
-            runAndRenderSimulation();
-        } finally {
-            startButton.classList.remove('button-loading');
-            clearButton.disabled = false;
-            startButton.disabled = false;
-            addButton.disabled = false;
-        }
-    }, 10);
-});
 
 function resetToPlaceholderState() {
     ganttChart.innerHTML = '';
