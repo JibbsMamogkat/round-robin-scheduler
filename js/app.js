@@ -88,42 +88,6 @@ processTableBody.addEventListener('click', (e) => {
 });
 
 
-clearButton.addEventListener('click', () => {
-    if (processes.length === 0) {
-        alert("There is nothing to clear.");
-        return;
-    }
-    
-    if (confirm("Are you sure you want to clear all processes and results?")) {
-        clearButton.classList.add('button-loading');
-        startButton.disabled = true;
-        clearButton.disabled = true;
-        addButton.disabled = true;
-    
-        setTimeout(() => {
-            try {
-                processIdCounter = 0; 
-                processes.length = 0;
-                updateProcessTable();
-                ganttChart.innerHTML = '';
-                ganttLabels.innerHTML = '';
-                queueGuide.innerHTML = '';
-                metricsDiv.innerHTML = '';
-    
-                const svgArrows = document.querySelectorAll('.process-connection-svg');
-                svgArrows.forEach(svg => svg.remove());
-    
-                quantumInput.value = '';
-            } finally {
-                clearButton.classList.remove('button-loading');
-                startButton.disabled = false;
-                clearButton.disabled = false;
-                addButton.disabled = false;
-            }
-        }, 10);
-    }
-});
-
 startButton.addEventListener('click', () => {
     const quantum = parseInt(quantumInput.value);
     if (isNaN(quantum) || quantum <= 0) { alert('Enter a valid time quantum!'); return; }
