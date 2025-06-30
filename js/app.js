@@ -438,9 +438,37 @@ function renderQueueGuide(guideSteps, timeline) {
     }, 100);
 }
 
+startButton.addEventListener('click', () => {
+    const quantum = parseInt(quantumInput.value);
+    if (isNaN(quantum) || quantum <= 0) {
+        alert('Enter a valid time quantum!');
+        return;
+    }
+    if (processes.length === 0) {
+        alert('Add at least one process!');
+        return;
+    }
+
+    startButton.classList.add('button-loading');
+    clearButton.disabled = true;
+    startButton.disabled = true;
+    addButton.disabled = true;
+
+    setTimeout(() => {
+        try {
+            runAndRenderSimulation();
+        } finally {
+            startButton.classList.remove('button-loading');
+            clearButton.disabled = false;
+            startButton.disabled = false;
+            addButton.disabled = false;
+        }
+    }, 10);
+});
+
 function calculateAndDisplayMetrics(completed) {
     if (!completed || completed.length === 0) {
-        metricsDiv.innerHTML = `<p>No processes were completed.</p>`;
+        resetToPlaceholderState();
         return;
     }
     let totalWaitingTime = 0;
@@ -524,19 +552,36 @@ window.addEventListener('load', () => {
 });
 
 clearButton.addEventListener('click', () => {
-    processIdCounter = 0;
-    processes.length = 0;
-    updateProcessTable(); 
-    ganttChart.innerHTML = '';
-    ganttLabels.innerHTML = '';
-    queueGuide.innerHTML = '';
-    metricsDiv.innerHTML = '';
+    if (processes.length === 0) {
+        alert("There is nothing to clear.");
+        return;
+    }
 
-    const svgArrows = document.querySelectorAll('.process-connection-svg');
-    svgArrows.forEach(svg => svg.remove());
+    if (confirm("Are you sure you want to clear all processes and results?")) {
+        clearButton.classList.add('button-loading');
+        startButton.disabled = true;
+        clearButton.disabled = true;
+        addButton.disabled = true;
 
-    quantumInput.value = '';
+        setTimeout(() => {
+            try {
+                processIdCounter = 0;
+                processes.length = 0;
+                quantumInput.value = '';
+
+                updateProcessTable();
+                resetToPlaceholderState();
+
+            } finally {
+                clearButton.classList.remove('button-loading');
+                startButton.disabled = false;
+                clearButton.disabled = false;
+                addButton.disabled = false;
+            }
+        }, 10);
+    }
 });
+
 startButton.addEventListener('click', () => {
     const quantum = parseInt(quantumInput.value);
     if (isNaN(quantum) || quantum <= 0) { alert('Enter a valid time quantum!'); return; }
@@ -558,3 +603,35 @@ startButton.addEventListener('click', () => {
         }
     }, 10);
 });
+
+function resetToPlaceholderState() {
+    ganttChart.innerHTML = '';
+    ganttLabels.innerHTML = '';
+    queueGuide.innerHTML = '';
+    metricsDiv.innerHTML = '';
+    
+    const svgArrows = document.querySelectorAll('.process-connection-svg');
+    svgArrows.forEach(svg => svg.remove());
+
+    ganttChart.innerHTML = `<p id="gantt-placeholder" class="placeholder-text">The Gantt chart will be generated here.</p>`;
+    queueGuide.innerHTML = `<p id="queue-placeholder" class="placeholder-text">Add processes and start the simulation to see the Ready Queue timeline.</p>`;
+ 
+    metricsDiv.innerHTML = `
+        <table id="results-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>End Time</th>
+                    <th>Turnaround Time</th>
+                    <th>Waiting Time</th>
+                </tr>
+            </thead>
+            <tbody id="results-body">
+                <tr id="results-placeholder">
+                    <td colspan="4" class="placeholder-text">Results will be calculated and displayed here.</td>
+                </tr>
+            </tbody>
+            <tfoot id="results-foot"></tfoot>
+        </table>
+    `;
+}
